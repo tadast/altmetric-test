@@ -6,7 +6,7 @@ class JournalsReader
   def to_full_records
     validate
     parsed.map do |line|
-      FullRecord.new(journal: line.first, issn: line.last)
+      Publication.new(journal_title: line.first, journal_issn: line.last)
     end
   end
 

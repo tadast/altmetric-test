@@ -30,10 +30,10 @@ describe 'combine' do
     expect(hash.size).to eq(1)
     expect(hash.first).to eq({
         "doi" => "10.1234/altmetric0",
-        "title" => "Small Wooden Chair",
-        "author" => "Amari Lubowitz",
-        "journal" => "Shanahan, Green and Ziemann",
-        "issn" => "1337-8688"
+        "article_title" => "Small Wooden Chair",
+        "author_name" => "Amari Lubowitz",
+        "journal_title" => "Shanahan, Green and Ziemann",
+        "journal_issn" => "1337-8688"
     })
   end
 end

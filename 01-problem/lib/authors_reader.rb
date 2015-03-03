@@ -14,7 +14,7 @@ class AuthorsReader
   def to_full_records
     parsed.flat_map do |hash|
       hash["articles"].map do |doi|
-        FullRecord.new(author: hash["name"], doi: doi)
+        Publication.new(author_name: hash["name"], doi: doi)
       end
     end
   end
