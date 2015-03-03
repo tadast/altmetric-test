@@ -17,8 +17,10 @@ describe 'combine' do
   it "outputs a combined file in CSV" do
     out = `ruby bin/combine.rb --format csv spec/fixtures/mini_articles.csv spec/fixtures/mini_journals.csv spec/fixtures/mini_authors.json`
     expect($?.exitstatus).to eq(0)
-    csv = "10.1234/altmetric0,Small Wooden Chair,Amari Lubowitz,\"Shanahan, Green and Ziemann\",1337-8688"
-    expect(out.split("\n")).to include(csv)
+    title = "DOI, Article title, Author name, Journal title, Journal ISSN"
+    data = "10.1234/altmetric0,Small Wooden Chair,Amari Lubowitz,\"Shanahan, Green and Ziemann\",1337-8688"
+    expect(out.split("\n")).to include(title)
+    expect(out.split("\n")).to include(data)
   end
 
   it "outputs a combined file in JSON" do
