@@ -16,21 +16,21 @@ class Combinator
   end
 
   def out
-    journals_record
+    journals_records + articles_records + authors_records
   end
 
 private
   attr_reader :format, :journals_csv_path, :articles_csv_path, :authors_json_path
 
   def journals_records
-    CsvReader.new(journals_csv_path).to_full_records
+    @journals_records ||= JournalsReader.new(journals_csv_path).to_full_records
   end
 
-  def articles_record
-
+  def articles_records
+    @articles_records ||= ArticlesReader.new(articles_csv_path).to_full_records
   end
 
-  def authors_record
-
+  def authors_records
+    @authors_records ||= AuthorsReader.new(authors_json_path).to_full_records
   end
 end
