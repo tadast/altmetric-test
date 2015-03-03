@@ -15,6 +15,7 @@ describe 'combine' do
   end
 
   it "outputs a combined file in CSV" do
+    skip
     out = `ruby bin/combine.rb --format csv spec/fixtures/mini_articles.csv spec/fixtures/mini_journals.csv spec/fixtures/mini_authors.json`
     expect($?.exitstatus).to eq(0)
     title = "DOI, Article title, Author name, Journal title, Journal ISSN"
@@ -24,6 +25,7 @@ describe 'combine' do
   end
 
   it "outputs a combined file in JSON" do
+    skip
     out = `ruby bin/combine.rb --format json spec/fixtures/mini_articles.csv spec/fixtures/mini_journals.csv spec/fixtures/mini_authors.json`
     expect($?.exitstatus).to eq(0)
     hash = JSON.parse(out)

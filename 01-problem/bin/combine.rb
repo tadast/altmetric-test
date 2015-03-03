@@ -14,6 +14,9 @@ unless ['json', 'csv'].include?(options[:format].to_s.downcase)
   raise ArgumentError.new("Incorrect format: #{options[:format]} is not supported. Supported formats are json and csv")
 end
 
-if optparse.select{ |input| input.to_s.size > 0 }.size != 3
+file_paths = optparse.select{ |input| input.to_s.size > 0 }
+if file_paths.size != 3
   raise ArgumentError.new("Missing input files. Please run the command with -h flag for usage")
 end
+
+Combinator.new(options[:format], *file_paths).print
