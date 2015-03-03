@@ -1,3 +1,4 @@
+require 'json'
 class AuthorsReader
   def initialize(file_path)
     @file_path = file_path

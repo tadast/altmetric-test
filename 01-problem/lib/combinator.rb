@@ -1,5 +1,3 @@
-require 'csv'
-require 'json'
 require 'pry'
 Dir[File.join(File.expand_path('../../lib', __FILE__), '**/*.rb')].each {|f| require f}
 
