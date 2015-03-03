@@ -1,5 +1,6 @@
 require "date"
 require "fixnum"
+Dir[File.join(File.dirname(__FILE__), "formatters/**/*.rb")].each {|f| require f}
 
 class DateRangeFormatter
   def initialize(start_date, end_date, start_time = nil, end_time = nil)
@@ -10,19 +11,23 @@ class DateRangeFormatter
   end
 
   def to_s
-    if start_date == end_date
-      same_date
-    elsif (start_date.year == end_date.year) && (start_date.month == end_date.month)
-      same_month
-    elsif start_date.year == end_date.year
-      same_year
-    else
-      no_commonalities
-    end
+    formatter_klass.new(start_date, end_date, start_time, end_time).to_s
   end
 
 private
   attr_reader :start_time, :end_time
+
+  def formatter_klass
+    if start_date == end_date
+      SameDateFormatter
+    elsif (start_date.year == end_date.year) && (start_date.month == end_date.month)
+      SameMonthFormatter
+    elsif start_date.year == end_date.year
+      SameYearFormatter
+    else
+      NoCommonalitiesFormatter
+    end
+  end
 
   def start_date
     @start_date ||= Date.parse(@raw_start_date)
@@ -30,74 +35,6 @@ private
 
   def end_date
     @end_date ||= Date.parse(@raw_end_date)
-  end
-
-  def same_date
-    if start_time && end_time
-      "#{full_start_date} at #{start_time} to #{end_time}"
-    elsif start_time
-      "#{full_start_date} at #{start_time}"
-    elsif end_time
-      "#{full_start_date} until #{end_time}"
-    else
-      full_start_date
-    end
-  end
-
-  def same_month
-    if start_time && end_time
-      full_range
-    elsif start_time
-      start_datetime_to_end_date
-    elsif end_time
-      start_date_to_end_datetime
-    else
-      start_date.strftime("#{start_date.day.ordinalize} - #{end_date.day.ordinalize} %B %Y")
-    end
-  end
-
-  def same_year
-    if start_time && end_time
-      full_range
-    elsif start_time
-      start_datetime_to_end_date
-    elsif end_time
-      start_date_to_end_datetime
-    else
-      start_date.strftime("#{start_date.day.ordinalize} %B - ") + end_date.strftime("#{end_date.day.ordinalize} %B %Y")
-    end
-  end
-
-  def no_commonalities
-    if start_time && end_time
-      full_range
-    elsif start_time
-      start_datetime_to_end_date
-    elsif end_time
-      start_date_to_end_datetime
-    else
-      "#{full_start_date} - #{full_end_date}"
-    end
-  end
-
-  def full_start_date
-    start_date.strftime("#{start_date.day.ordinalize} %B %Y")
-  end
-
-  def full_end_date
-    end_date.strftime("#{end_date.day.ordinalize} %B %Y")
-  end
-
-  def full_range
-    "#{full_start_date} at #{start_time} - #{full_end_date} at #{end_time}"
-  end
-
-  def start_datetime_to_end_date
-    "#{full_start_date} at #{start_time} - #{full_end_date}"
-  end
-
-  def start_date_to_end_datetime
-    "#{full_start_date} - #{full_end_date} at #{end_time}"
   end
 end
 
