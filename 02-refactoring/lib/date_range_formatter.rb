@@ -32,14 +32,6 @@ private
     @end_date ||= Date.parse(@raw_end_date)
   end
 
-  def full_start_date
-    start_date.strftime("#{start_date.day.ordinalize} %B %Y")
-  end
-
-  def full_end_date
-    end_date.strftime("#{end_date.day.ordinalize} %B %Y")
-  end
-
   def same_date
     if start_time && end_time
       "#{full_start_date} at #{start_time} to #{end_time}"
@@ -54,11 +46,11 @@ private
 
   def same_month
     if start_time && end_time
-      "#{full_start_date} at #{start_time} - #{full_end_date} at #{end_time}"
+      full_range
     elsif start_time
-      "#{full_start_date} at #{start_time} - #{full_end_date}"
+      start_datetime_to_end_date
     elsif end_time
-      "#{full_start_date} - #{full_end_date} at #{end_time}"
+      start_date_to_end_datetime
     else
       start_date.strftime("#{start_date.day.ordinalize} - #{end_date.day.ordinalize} %B %Y")
     end
@@ -66,11 +58,11 @@ private
 
   def same_year
     if start_time && end_time
-      "#{full_start_date} at #{start_time} - #{full_end_date} at #{end_time}"
+      full_range
     elsif start_time
-      "#{full_start_date} at #{start_time} - #{full_end_date}"
+      start_datetime_to_end_date
     elsif end_time
-      "#{full_start_date} - #{full_end_date} at #{end_time}"
+      start_date_to_end_datetime
     else
       start_date.strftime("#{start_date.day.ordinalize} %B - ") + end_date.strftime("#{end_date.day.ordinalize} %B %Y")
     end
@@ -78,14 +70,34 @@ private
 
   def no_commonalities
     if start_time && end_time
-      "#{full_start_date} at #{start_time} - #{full_end_date} at #{end_time}"
+      full_range
     elsif start_time
-      "#{full_start_date} at #{start_time} - #{full_end_date}"
+      start_datetime_to_end_date
     elsif end_time
-      "#{full_start_date} - #{full_end_date} at #{end_time}"
+      start_date_to_end_datetime
     else
       "#{full_start_date} - #{full_end_date}"
     end
+  end
+
+  def full_start_date
+    start_date.strftime("#{start_date.day.ordinalize} %B %Y")
+  end
+
+  def full_end_date
+    end_date.strftime("#{end_date.day.ordinalize} %B %Y")
+  end
+
+  def full_range
+    "#{full_start_date} at #{start_time} - #{full_end_date} at #{end_time}"
+  end
+
+  def start_datetime_to_end_date
+    "#{full_start_date} at #{start_time} - #{full_end_date}"
+  end
+
+  def start_date_to_end_datetime
+    "#{full_start_date} - #{full_end_date} at #{end_time}"
   end
 end
 
