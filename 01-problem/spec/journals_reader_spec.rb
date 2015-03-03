@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe JournalsReader do
   describe "#to_full_records" do
+    it "raises an error if the data file is wrong" do
+      expect{
+        described_class.new("spec/fixtures/mini_articles.csv").to_full_records
+      }.to raise_error("Journals file must have titles: Title, ISSN")
+    end
+
     it "loads the journals data from a csv file to a full record" do
       records = described_class.new("spec/fixtures/mini_journals.csv").to_full_records
       expect(records.size).to eq 1

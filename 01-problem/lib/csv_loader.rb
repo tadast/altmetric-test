@@ -4,10 +4,17 @@ class CsvLoader
     @file_path = file_path
   end
 
-  def load
-    contents = File.read(File.join(File.dirname(__FILE__), '..', @file_path))
-    parsed = CSV.parse(contents)
-    parsed.shift # remove titles
+  def data
+    titles
     parsed
+  end
+
+  def titles
+    @titles ||= parsed.shift
+  end
+
+private
+  def parsed
+    @parsed ||= CSV.parse(File.read(File.join(File.dirname(__FILE__), '..', @file_path)))
   end
 end
