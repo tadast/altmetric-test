@@ -10,7 +10,22 @@ class FullRecord
     @issn = issn
   end
 
+  def to_h
+    {
+      doi: doi,
+      title: title,
+      author: author,
+      journal: journal,
+      issn: issn
+    }
+  end
+
+  def to_a
+    [doi, title, author, journal, issn]
+  end
+
   def issn
+    return nil if @issn.nil?
     @formatted_issn ||= begin
       numbers = @issn.scan(/\d/).join('')
       unless numbers.size == 8

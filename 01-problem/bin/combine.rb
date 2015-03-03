@@ -7,10 +7,10 @@ require "pry"
 options = {}
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: ruby combine.rb --format <format> journals.csv articles.csv authors.json > full_articles.<format>"
-  opts.on('-f', '--format format', String, 'output format') { |o| options[:format] = o }
+  opts.on('-f', '--format format', String, 'output format') { |o| options[:format] = o.to_s.downcase }
 end.parse!
 
-unless ['json', 'csv'].include?(options[:format].to_s.downcase)
+unless ['json', 'csv'].include?(options[:format])
   raise ArgumentError.new("Incorrect format: #{options[:format]} is not supported. Supported formats are json and csv")
 end
 

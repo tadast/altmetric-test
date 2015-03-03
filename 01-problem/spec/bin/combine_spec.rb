@@ -15,21 +15,20 @@ describe 'combine' do
   end
 
   it "outputs a combined file in CSV" do
-    skip
-    out = `ruby bin/combine.rb --format csv spec/fixtures/mini_articles.csv spec/fixtures/mini_journals.csv spec/fixtures/mini_authors.json`
+    out = `ruby bin/combine.rb --format csv spec/fixtures/mini_journals.csv spec/fixtures/mini_articles.csv spec/fixtures/mini_authors.json`
     expect($?.exitstatus).to eq(0)
-    title = "DOI, Article title, Author name, Journal title, Journal ISSN"
+    title = "DOI,Article title,Author name,Journal title,Journal ISSN"
     data = "10.1234/altmetric0,Small Wooden Chair,Amari Lubowitz,\"Shanahan, Green and Ziemann\",1337-8688"
     expect(out.split("\n")).to include(title)
     expect(out.split("\n")).to include(data)
   end
 
   it "outputs a combined file in JSON" do
-    skip
-    out = `ruby bin/combine.rb --format json spec/fixtures/mini_articles.csv spec/fixtures/mini_journals.csv spec/fixtures/mini_authors.json`
+    out = `ruby bin/combine.rb --format json spec/fixtures/mini_journals.csv spec/fixtures/mini_articles.csv spec/fixtures/mini_authors.json`
     expect($?.exitstatus).to eq(0)
     hash = JSON.parse(out)
-    expect(hash).to eq({
+    expect(hash.size).to eq(1)
+    expect(hash.first).to eq({
         "doi" => "10.1234/altmetric0",
         "title" => "Small Wooden Chair",
         "author" => "Amari Lubowitz",
