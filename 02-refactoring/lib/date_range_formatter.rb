@@ -12,7 +12,7 @@ class DateRangeFormatter
   def to_s
     if start_date == end_date
       same_date
-    elsif start_date.month == end_date.month
+    elsif (start_date.year == end_date.year) && (start_date.month == end_date.month)
       same_month
     elsif start_date.year == end_date.year
       same_year
