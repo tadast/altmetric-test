@@ -1,11 +1,7 @@
-class ArticlesReader
-  def initialize(file_path)
-    @file_path = file_path
-  end
+require_relative 'csv_reading'
 
-  def parsed
-    @parsed ||= csv_file.data
-  end
+class ArticlesReader
+  include CsvReading
 
   def to_full_records
     validate
@@ -15,10 +11,6 @@ class ArticlesReader
   end
 
 private
-
-  def csv_file
-    @csv_file ||= CsvLoader.new(@file_path)
-  end
 
   def validate
     unless csv_file.titles.map(&:downcase) == ["doi", "title", "issn"]
